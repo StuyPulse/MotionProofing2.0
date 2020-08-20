@@ -31,6 +31,18 @@ public final class Constants {
 
         double TRACK_WIDTH = 133769.420;
         double ENCODER_FACTOR = 3.14;
+
+        public interface FF {
+            double ks = 3.1415;
+            double kv = 0.6969;
+            double ka = 2.718281828;
+        }
+
+        public interface PID {
+            double kp = 10.0;  
+            double ki = 0;
+            double kd = 2.0;
+        }
     }
 
 }

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -72,7 +73,7 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    odometry.update(getAngle(), getLeftDistance(), getRightDistance());
+    odometry.update(getAngle(), Units.feetToMeters(getLeftDistance()), Units.feetToMeters(getRightDistance()));
   }
 
   // Return a Rotation2d object from [the initial heading of the robot?]
@@ -87,7 +88,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Reset the encoders
-  private void resetEncoders() {
+  public void resetEncoders() {
     leftEncoder.setPosition(0);
     rightEncoder.setPosition(0);
   }
@@ -107,9 +108,27 @@ public class Drivetrain extends SubsystemBase {
     return (getLeftDistance() + getRightDistance()) / 2;
   }
 
+  // Return the left velocity of the drivetrain
+  public double getLeftVelocity() {
+    return leftEncoder.getVelocity();
+  }
+
+  // Return the right velocity of the drivetrain
+  public double getRightVelocity() {
+    return rightEncoder.getVelocity();
+  }
+
+  // Return the velocity of the drivetrain
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() { 
+    return new DifferentialDriveWheelSpeeds(
+      Units.feetToMeters(getLeftVelocity()), 
+      Units.feetToMeters(getRightVelocity())
+    );   
+  }
+
   // Reset the Gyro
   public void resetGyro() {
-    navx.reset(); 
+    navx.reset();
   }
 
   // Return a Pose2d object of the current position
@@ -124,8 +143,40 @@ public class Drivetrain extends SubsystemBase {
     motors.feed();
   }
 
+  public void stop() {
+    tankDriveVolts(0, 0);
+  }
+
   // Arcade drive
   public void arcadeDrive(double speed, double rotation) {
     motors.arcadeDrive(speed, rotation, false);
   }
+
+  // Return drivetrain kinematics
+  public DifferentialDriveKinematics getKinematics() {
+    return kinematics;   
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
