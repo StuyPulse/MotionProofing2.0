@@ -39,6 +39,6 @@ public class DriveStraightCommand extends SequentialCommandGroup {
   public DriveStraightCommand(Drivetrain drivetrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new DrivetrainFollowTrajectoryCommand(drivetrain, trajectory));
+    super(new DrivetrainRamseteCommand(drivetrain, trajectory));
   }
 }

@@ -45,6 +45,6 @@ public class DriveCircleCommand extends SequentialCommandGroup {
   public DriveCircleCommand(Drivetrain drivetrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new DrivetrainFollowTrajectoryCommand(drivetrain, trajectory));
+    super(new DrivetrainRamseteCommand(drivetrain, trajectory));
   }
 }

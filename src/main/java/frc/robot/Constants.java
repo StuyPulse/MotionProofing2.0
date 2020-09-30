@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import java.nio.file.Path;
+
+import edu.wpi.first.wpilibj.Filesystem;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -34,7 +38,7 @@ public final class Constants {
 
         public interface FF {
             double ks = 3.1415;
-            double kv = 0.6969;
+            double kv = 0.69420;
             double ka = 2.718281828;
         }
 
@@ -45,4 +49,5 @@ public final class Constants {
         }
     }
 
+    public static Path DEPLOY_DIR = Filesystem.getDeployDirectory().toPath(); 
 }
