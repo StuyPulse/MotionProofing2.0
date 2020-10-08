@@ -61,7 +61,8 @@ public class Drivetrain extends SubsystemBase {
     leftEncoder = leftBackMotor.getEncoder();
     rightEncoder = rightBackMotor.getEncoder();
     resetEncoders();
-    setEncoderFactor(ENCODER_FACTOR);
+    setNEOPositionFactor(ENCODER_FACTOR);
+    setNEOVelocityFactor(ENCODER_FACTOR / 60.0);
 
     navx = new AHRS(SPI.Port.kMXP);
 
@@ -76,15 +77,16 @@ public class Drivetrain extends SubsystemBase {
     odometry.update(getAngle(), Units.feetToMeters(getLeftDistance()), Units.feetToMeters(getRightDistance()));
   }
 
-  // Return a Rotation2d object from [the initial heading of the robot?]
-  public Rotation2d getAngle() {
-    return Rotation2d.fromDegrees(Math.IEEEremainder(navx.getAngle(), 360) * -1);
-  }
-
-  // Set the encoder factors
-  private void setEncoderFactor(double factor) {
+  // Set the encoder position factors
+  private void setNEOPositionFactor(double factor) {
     leftEncoder.setPositionConversionFactor(factor);
     rightEncoder.setPositionConversionFactor(factor);
+  }
+
+  // Set the encoder velocity factors 
+  private void setNEOVelocityFactor(double factor) {
+    leftEncoder.setVelocityConversionFactor(factor); 
+    rightEncoder.setVelocityConversionFactor(factor); 
   }
 
   // Reset the encoders
@@ -100,12 +102,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Return right distance
   public double getRightDistance() {
-    return rightEncoder.getPosition();
-  }
-
-  // Return average distance
-  public double getDistance() {
-    return (getLeftDistance() + getRightDistance()) / 2;
+    return -rightEncoder.getPosition();
   }
 
   // Return the left velocity of the drivetrain
@@ -129,6 +126,11 @@ public class Drivetrain extends SubsystemBase {
   // Reset the Gyro
   public void resetGyro() {
     navx.reset();
+  }
+
+  // Return a Rotation2d object from [the initial heading of the robot?]
+  public Rotation2d getAngle() {
+    return Rotation2d.fromDegrees(Math.IEEEremainder(navx.getAngle(), 360) * -1);
   }
 
   // Return a Pose2d object of the current position

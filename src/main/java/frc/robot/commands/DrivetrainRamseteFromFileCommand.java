@@ -16,7 +16,9 @@ import frc.robot.subsystems.Drivetrain;
 public class DrivetrainRamseteFromFileCommand extends DrivetrainRamseteCommand {
 
   public DrivetrainRamseteFromFileCommand(Drivetrain drivetrain, String pathStr) throws IOException {
-    super(drivetrain, TrajectoryUtil.fromPathweaverJson(Constants.DEPLOY_DIR.resolve(pathStr))); 
+    super(drivetrain, TrajectoryUtil.fromPathweaverJson(
+      Constants.DEPLOY_DIR.resolve(pathStr)
+    )); 
   }
 
 }

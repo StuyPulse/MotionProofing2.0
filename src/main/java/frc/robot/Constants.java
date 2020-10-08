@@ -19,7 +19,9 @@ import edu.wpi.first.wpilibj.Filesystem;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public interface Constants {
+
+    Path DEPLOY_DIR = Filesystem.getDeployDirectory().toPath(); 
 
     public interface Drivetrain {
         int LEFT_TOP = 7;
@@ -33,21 +35,23 @@ public final class Constants {
         int RIGHT_ENCODER_A = 2;
         int RIGHT_ENCODER_B = 3;
 
-        double TRACK_WIDTH = 133769.420;
-        double ENCODER_FACTOR = 3.14;
+        double WHEEL_DIAMETER = 0.5; 
+        double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
+        double ENCODER_FACTOR = WHEEL_CIRCUMFERENCE * (1.0 / 16.71);
+
+        // 30 in by 29 in
+        double TRACK_WIDTH = 29 / 12;
 
         public interface FF {
-            double ks = 3.1415;
-            double kv = 0.69420;
-            double ka = 2.718281828;
+            double ks = 0;
+            double kv = 0;
+            double ka = 0;
         }
 
         public interface PID {
-            double kp = 10.0;  
+            double kp = 0;  
             double ki = 0;
-            double kd = 2.0;
+            double kd = 0;
         }
     }
-
-    public static Path DEPLOY_DIR = Filesystem.getDeployDirectory().toPath(); 
 }
